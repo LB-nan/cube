@@ -1,6 +1,7 @@
 $(function(){
     var $cube = $('#cube');
     var $cubeBox = $('#cubeBox');
+    var oAudio = document.getElementById('music');
     var cube = (function(){
         var $li = $cubeBox.find('li');
         var downX = 0;
@@ -21,6 +22,7 @@ $(function(){
 				$cubeBox.css('transition','');
 			});
 			bind();
+			oAudio.play();
         }
         
         function bind(){
@@ -70,8 +72,41 @@ $(function(){
             init:init
         }
     })();
-	setTimeout(function(){
-		cube.init();
-	},10)
+//	setTimeout(function(){
+//		cube.init();
+//	},10)
+	
+	
+        showLoding()
+        function showLoding(){
+        	
+        	var arr = ['cubeBg.jpg','cubeImg1.png','cubeImg2.png','cubeImg3.png','cubeImg4.png','cubeImg5.png','cubeImg6.png','cubeShareMark.png','cubeShare.png'];
+		var iNow = 0;
+		$.each(arr,function(i,imgSrc){
+			var objImg = new Image();
+			objImg.src = 'img/'+imgSrc;
+			objImg.onload = function(){
+				iNow++;
+				
+				$('#p1 > span').html(iNow/arr.length*100+'%');
+				$('.loadingProgressBar').css('width',(iNow/arr.length*100) + '%');
+			};
+			
+			objImg.onerror = function(){
+				$('#loading').animate({opacity:0},function(){
+					$(this).remove();
+						cube.init();
+				});
+			};
+		});
+		$('.loadingProgressBar').on('transitionEnd webkitTransitionEnd',function(){					
+			if(iNow == arr.length){
+				$('#loading').animate({opacity:0},function(){
+					$(this).remove();
+						cube.init();
+				});
+			}
+		});
+        }
     
 })
