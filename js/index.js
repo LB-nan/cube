@@ -88,7 +88,7 @@ $(function(){
 			objImg.onload = function(){
 				iNow++;
 				
-				$('#p1 > span').html(iNow/arr.length*100+'%');
+				$('#p1 > span').html(Math.round(iNow/arr.length*100)+'%');
 				$('.loadingProgressBar').css('width',(iNow/arr.length*100) + '%');
 			};
 			
